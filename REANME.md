@@ -42,3 +42,19 @@ JSON.toJSONString(accessTokenDTO)
 ```
 JSON.parseObject(string, GithubUser.class)
 ```
+### 五、将user保存至数据库，实现登录状态持久化
+- 构建一个user实体，创建user对象插入数据库，并保存至cookie，最后重定向首页
+- 首页控制器获取所有cookie，遍历cookie集合，发现key后，从数据库进行匹配
+- 如果存在，从数据库返回一个user对象，保存至session域中
+- 首页页面通过thymeleaf标签进行获取session域中的数据。
+
+# 将java代码中的硬编码放入application.properties配置文件中
+- 使用@Value(${key})注解读取
+- 配置文件中通过key=value的形式保存，注意value不需要单双引号。
+
+# 集成Mybatis
+- 引入依赖
+- 在application.properties配置文件中添加配置
+- 创建Mapper接口，编写CRUD方法使用sql语句。
+
+
