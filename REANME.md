@@ -57,4 +57,15 @@ JSON.parseObject(string, GithubUser.class)
 - 在application.properties配置文件中添加配置
 - 创建Mapper接口，编写CRUD方法使用sql语句。
 
+# 编写发布内容页面（publish.html)
+- 使用流式布局容器，设定合适的栅格参数
+- 自定义css样式文件，并且引入、使用。
+
+# Lombok插件工具
+- 引入依赖
+- 数据传输对象或数据库模型对象类中使用@Data注解
+
+# spring boot热部署 -devtools
+
+
 

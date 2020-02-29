@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>社区</title>
+    <title>发布</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -38,7 +38,6 @@
                 </li>
 
                 <li class="dropdown" th:if="${session.user != null}">
-                    <a href="/publish">发布</a>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">我<span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="#">消息中心</a></li>
@@ -56,21 +55,28 @@
 <!-- main -->
 <div class="container-fluid main">
     <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
-        <h2><span class="glyphicon glyphicon-list" aria-hidden="true"></span> 发布内容</h2>
+        <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 发布内容</h2>
 
         <hr>
 
-        <div class="media" th:each="question : ${List}">
-            <div class="media-left">
-                <a href="#">
-                    <img class="media-object img-rounded" th:src="${question.user.avatar_url}">
-                </a>
+        <form action="/publish" method="post">
+            <div class="form-group">
+                <label for="title">标题</label>
+                <input type="text" class="form-control" id="title" name="title" placeholder="this is title！">
             </div>
-            <div class="media-body">
-                <h2 class="media-heading" th:text="${question.title}"></h2>
-                <span th:text="${question.description}"></span>
+
+            <div class="form-group">
+                <label for="title">内容</label>
+                <textarea class="form-control" name="description" id="description" rows="15"></textarea>
             </div>
-        </div>
+
+            <div class="form-group">
+                <label for="title">标签</label>
+                <input type="text" class="form-control" id="tag" name="tag" placeholder="this is tag！">
+            </div>
+
+            <button type="submit" class="btn btn-success btn-publish">提交</button>
+        </form>
 
 
     </div>
@@ -81,5 +87,7 @@
     </div>
 </div>
 <!-- main -->
+
+</div>
 </body>
 </html>
