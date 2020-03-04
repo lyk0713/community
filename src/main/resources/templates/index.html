@@ -60,7 +60,7 @@
 
         <hr>
 
-        <div class="media" th:each="question : ${List}">
+        <div class="media" th:each="question : ${paginationDTO.questionDTOs}">
             <div class="media-left">
                 <a href="#">
                     <img class="media-object img-rounded" th:src="${question.user.avatar_url}">
@@ -72,6 +72,37 @@
             </div>
         </div>
 
+        <!-- 分页 -->
+        <nav aria-label="...">
+            <ul class="pagination">
+                <li th:if="${paginationDTO.showFirstPage}">
+                    <a href="/?page=1" aria-label="Previous">
+                        <span aria-hidden="true">&lt;&lt;</span>
+                    </a>
+                </li>
+                <li th:if="${paginationDTO.showPrevious}">
+                    <a th:href="@{/(page=${paginationDTO.page - 1})}" aria-label="Previous">
+                        <span aria-hidden="true">&lt;</span>
+                    </a>
+                </li>
+
+                <li th:each="page : ${paginationDTO.pages}" th:class="${paginationDTO.page == page} ? 'active' : '' ">
+                    <a th:href="@{/(page=${page})}" th:text="${page}"></a>
+                </li>
+
+                <li th:if="${paginationDTO.showNext}">
+                    <a th:href="@{/(page=${paginationDTO.page + 1})}" aria-label="Previous">
+                        <span aria-hidden="true">&gt;</span>
+                    </a>
+                </li>
+                <li th:if="${paginationDTO.showLastPage}">
+                    <a th:href="@{/(page=${paginationDTO.totalPage})}" aria-label="Previous">
+                        <span aria-hidden="true">&gt;&gt;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <!-- 分页 -->
 
     </div>
     <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">

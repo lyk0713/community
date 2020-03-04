@@ -64,7 +64,7 @@
         </dependency>
         <!-- datebase end -->
 
-        <!-- lombok start-->
+        <!-- lombok start -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -73,13 +73,14 @@
         </dependency>
         <!-- lombok end-->
 
+        <!--
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
             <scope>true</scope>
         </dependency>
-
+        -->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

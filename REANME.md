@@ -67,5 +67,30 @@ JSON.parseObject(string, GithubUser.class)
 
 # spring boot热部署 -devtools
 
+# 分页功能
+
+select * from question limit step,size;
+
+第1页：0,5      
+第2页：5,5     
+第3页：10,5    
+
+step = (page-1) * 5
+
+pagetotal = recordtotal / size （向上取整）
+if(recordtotal % size != 0)
+    pagetotal = (recordtotal / size) + 1;
+else 
+    pagetotal = recordtotal / size;
+   
+1、传递参数：当前页码（page）和每页显示记录数（size）
+2、index控制器接收参数，传递给service层处理
+3、service层根据当前页码page和size计算出sql语句条件limit step,size
+4、Mapper通过step和size查询记录数返回对象集合
+5、通过Mapper查询出总记录数
+6、构建分页模型
+7、new分页模型，赋值所有成员属性
+8、将分页模型返回，并保存到域中
+9、页面通过Thymeleaf标签获取值
 
 
