@@ -29,6 +29,15 @@ public class PublishController {
     @Autowired
     private QuestionService questionService;
 
+
+    /* 删除发布内容 */
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable(name = "id")int id){
+
+        return "profile";
+    }
+
+    /* 发布内容详情 */
     @GetMapping("/publish/{id}")
     public String publish(@PathVariable(name="id")int id, Model model) {
         QuestionDTO question = questionService.getById(id);
@@ -40,6 +49,14 @@ public class PublishController {
         return "publish";
     }
 
+    /* 跳转发布内容页面 */
+    @GetMapping("/publish")
+    public String publish() {
+
+        return "publish";
+    }
+
+    /* 发布内容或更新内容*/
     @PostMapping("/publish")
     public String doPublish(@RequestParam("title")String title,
                             @RequestParam("description")String description,
@@ -48,25 +65,7 @@ public class PublishController {
                             HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
         Question question = new Question();
 
-        User user = null;
-
-        Cookie[] cookies = request.getCookies();
-        if(cookies != null && cookies.length != 0) {
-            for (Cookie cookie : cookies) {
-                if ("token".equals(cookie.getName())) {
-                    String token = cookie.getValue();
-
-                    user = userMapper.selectByToken(token);
-
-                    if (user != null) {
-                        //将user对象放入session域中
-                        request.getSession().setAttribute("user", user);
-                    }
-
-                    break;
-                }
-            }
-        }
+        User user = (User) request.getSession().getAttribute("user");
 
         if(user == null) {
             System.out.println("用户未登录！");
@@ -81,7 +80,6 @@ public class PublishController {
         question.setId(id);
 
         questionService.CreateOrUpdate(question);
-        //questionMapper.insert(question);
 
         return "redirect:/";
     }

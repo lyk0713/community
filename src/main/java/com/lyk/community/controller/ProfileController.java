@@ -29,25 +29,7 @@ public class ProfileController {
                           Model model, HttpServletRequest request,
                           @RequestParam(name = "page", defaultValue = "1")int page,
                           @RequestParam(name = "size", defaultValue = "5")int size) {
-        User user = null;
-
-        Cookie[] cookies = request.getCookies();
-        if(cookies != null && cookies.length != 0) {
-            for (Cookie cookie : cookies) {
-                if ("token".equals(cookie.getName())) {
-                    String token = cookie.getValue();
-
-                    user = userMapper.selectByToken(token);
-
-                    if (user != null) {
-                        //将user对象放入session域中
-                        request.getSession().setAttribute("user", user);
-                    }
-
-                    break;
-                }
-            }
-        }
+        User user = (User) request.getSession().getAttribute("user");
 
         if(user == null) {
             return "redirect:/";
