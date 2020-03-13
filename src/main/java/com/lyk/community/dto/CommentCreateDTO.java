@@ -3,8 +3,8 @@ package com.lyk.community.dto;
 import lombok.Data;
 
 @Data
-public class CommentDTO {
-    private Long parent_id;
+public class CommentCreateDTO {
+    private Integer parent_id;
     private String content;
-    private int type;
+    private Integer type;
 }

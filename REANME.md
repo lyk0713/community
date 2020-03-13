@@ -103,3 +103,22 @@ else
 # 实现退出登录功能
 # 实现删除个人的发布内容
 # 使用拦截器封装登录cookie遍历代码
+
+# MyBatis Generator的使用
+### 生成
+- 引入依赖
+- 引入maven插件
+- 将数据库依赖放入插件
+- 在resources下创建并完善generatorConfig.xml
+- 控制台：mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
+### 使用
+- 引入依赖
+- @MapperScan("com.lyk.community) 注解路由mapper
+- 添加配置
+```
+mybatis.type-aliases-package=com.lyk.community.model
+mybatis.config-location=classpath:mapper/*.xml
+```
+
+# 异常页面处理
+# 实现评论回复功能

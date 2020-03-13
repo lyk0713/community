@@ -2,6 +2,8 @@ package com.lyk.community.service;
 
 import com.lyk.community.dto.PaginationDTO;
 import com.lyk.community.dto.QuestionDTO;
+import com.lyk.community.exception.CustomizeErrorCode;
+import com.lyk.community.exception.CustomizeException;
 import com.lyk.community.mapper.QuestionMapper;
 import com.lyk.community.mapper.UserMapper;
 import com.lyk.community.model.Question;
@@ -258,6 +260,9 @@ public class QuestionService {
     * */
     public QuestionDTO getById(int id) {
         Question question = questionMapper.getById(id);
+        if(question == null){
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question, questionDTO);
         User user = userMapper.selectById(question.getCreator());
