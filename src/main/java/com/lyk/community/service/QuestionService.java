@@ -60,7 +60,7 @@ public class QuestionService {
         /******************** 实现分页 ********************/
         PaginationDTO paginationDTO = new PaginationDTO();
 
-        paginationDTO.setQuestionDTOs(questionDTOs);
+        paginationDTO.setDTOs(questionDTOs);
 
         int totalCount = questionMapper.selectCount();//获取总记录数
         int totalPage = 0;
@@ -169,7 +169,7 @@ public class QuestionService {
         /******************** 实现分页 ********************/
         PaginationDTO paginationDTO = new PaginationDTO();
 
-        paginationDTO.setQuestionDTOs(questionDTOs);
+        paginationDTO.setDTOs(questionDTOs);
 
         int totalCount = questionMapper.selectCountByUser(userid);//获取总记录数
         int totalPage = 0;

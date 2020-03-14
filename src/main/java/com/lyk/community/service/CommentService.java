@@ -1,14 +1,17 @@
 package com.lyk.community.service;
 
 import com.lyk.community.controller.CommentDTO;
-import com.lyk.community.dto.QuestionDTO;
 import com.lyk.community.enums.CommentTypeEnum;
+import com.lyk.community.enums.NotificationStatusEnum;
+import com.lyk.community.enums.NotificationTypeEnum;
 import com.lyk.community.exception.CustomizeErrorCode;
 import com.lyk.community.exception.CustomizeException;
 import com.lyk.community.mapper.CommentMapper;
+import com.lyk.community.mapper.NotificationMapper;
 import com.lyk.community.mapper.QuestionMapper;
 import com.lyk.community.mapper.UserMapper;
 import com.lyk.community.model.Comment;
+import com.lyk.community.model.Notification;
 import com.lyk.community.model.Question;
 import com.lyk.community.model.User;
 import org.springframework.beans.BeanUtils;
@@ -18,8 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class CommentService {
@@ -33,8 +34,11 @@ public class CommentService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private NotificationMapper notificationMapper;
+
     @Transactional
-    public void insert(Comment comment) {
+    public void insert(Comment comment, User commentator) {
         if(comment.getParent_id() == null || comment.getParent_id() == 0) {
             throw new CustomizeException(CustomizeErrorCode.TARGET_PARAM_NOT_FOUND);
         }
@@ -46,6 +50,18 @@ public class CommentService {
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
             }
             commentMapper.insert(comment);
+
+            // 添加通知
+            Notification notification = new Notification();
+            notification.setNotifier(comment.getCommentator());
+            notification.setReceiver(dbComment.getCommentator());
+            notification.setType(NotificationTypeEnum.REPLY_COMMENT.getType());
+            notification.setStatus(NotificationStatusEnum.UNREAD.getStatus());
+            notification.setOuterId(comment.getParent_id());
+            notification.setCreate_time(System.currentTimeMillis());
+            notification.setNotifier_name(commentator.getName());
+            notification.setOuter_title(comment.getContent());
+            notificationMapper.insert(notification);
         } else {
             // 回复问题
             Question question = questionMapper.getById(comment.getParent_id());
@@ -55,8 +71,18 @@ public class CommentService {
 
             commentMapper.insert(comment);
 
-//            questionMapper.updateCommentCount();//评论数+1
 
+            // 添加通知
+            Notification notification = new Notification();
+            notification.setNotifier(comment.getCommentator());
+            notification.setReceiver(question.getCreator());
+            notification.setType(NotificationTypeEnum.REPLY_QUESTION.getType());
+            notification.setStatus(NotificationStatusEnum.UNREAD.getStatus());
+            notification.setOuterId(comment.getParent_id());
+            notification.setCreate_time(System.currentTimeMillis());
+            notification.setNotifier_name(commentator.getName());
+            notification.setOuter_title(question.getTitle());
+            notificationMapper.insert(notification);
         }
 
     }
@@ -92,5 +118,10 @@ public class CommentService {
         }
 
         return commentDTOs;
+    }
+
+    public Comment selectById(Integer outerId) {
+        Comment comment = commentMapper.selectById(outerId);
+        return comment;
     }
 }

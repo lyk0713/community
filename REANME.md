@@ -122,3 +122,5 @@ mybatis.config-location=classpath:mapper/*.xml
 
 # 异常页面处理
 # 实现评论回复功能
+
+# 实现消息通知功能
