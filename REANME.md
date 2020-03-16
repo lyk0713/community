@@ -124,3 +124,6 @@ mybatis.config-location=classpath:mapper/*.xml
 # 实现评论回复功能
 
 # 实现消息通知功能
+
+# 实现富文本编辑
+[开源插件](http://editor.md.ipandao.com/)
